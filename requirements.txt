@@ -1,0 +1,22 @@
+# Dependencias principales para la aplicación (compatibles con Python 3.6)
+fastapi
+uvicorn
+pydantic
+boto3
+python-multipart
+requests
+
+# Testing y desarrollo
+pytest
+pytest-asyncio
+pytest-mock
+
+# Para simular AWS localmente
+moto
+
+# Utilidades
+python-dotenv
+
+# Dependencias adicionales para compatibilidad con Python 3.6
+typing-extensions
+dataclasses
