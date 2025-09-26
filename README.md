@@ -1,24 +1,49 @@
-# 🚀 Task Manager Serverless - AWS con Python
+# 🚀## ✨ Características Principales
 
-Una aplicación serverless completa para gestión de tareas construida con AWS Lambda, DynamoDB, S3, SQS, SNS y otros servicios de AWS.
+### **🎯 Funcionalidades de Negocio**
+- ✅ **CRUD completo de tareas** (crear, leer, actualizar, eliminar)
+- 📎 **Gestión de archivos** vinculados a tareas (S3)  
+- 🔍 **Filtrado avanzado** por estado, prioridad, etiquetas y fechas
+- 📊 **Estadísticas en tiempo real** (total, por estado, por prioridad)
+- 📧 **Notificaciones automáticas** vía SNS al crear/actualizar
+- ⚡ **Procesamiento asíncrono** con colas SQS
 
-## 📋 Características
+### **🏗️ Arquitectura & Código**
+- 🎯 **Arquitectura en capas** (Handlers → Services → Repositories → Models)
+- ♻️ **Principios SOLID** aplicados (especialmente SRP)
+- 🔗 **Bajo acoplamiento** entre componentes
+- 🧪 **Alta testabilidad** (mocks, inyección de dependencias)
+- 📝 **Validación robusta** con Pydantic models
 
-- ✅ **CRUD completo de tareas** (crear, listar, actualizar, eliminar)
-- 📎 **Subida de archivos** a S3 vinculados a tareas
-- 📊 **Procesamiento masivo** de tareas desde archivos CSV
-- 📧 **Notificaciones automáticas** via SNS
-- ⚡ **Procesamiento asíncrono** con SQS
-- 🔍 **Filtrado y búsqueda** de tareas
-- 📈 **Estadísticas** y reportes
-- 🧪 **Entorno local** para desarrollo y pruebas
+### **🛠️ Desarrollo & DevOps**
+- 🐳 **Entorno local completo** con LocalStack (no requiere AWS real)
+- 📚 **Documentación automática** con FastAPI/Swagger UI
+- 🧪 **Suite de pruebas completa** (unitarias, integración, smoke tests)
+- 📬 **Colección Postman** para testing manual
+- 🚀 **Setup rápido** (< 5 minutos desde cero)r Serverless AWS
 
-## 🏗️ Arquitectura
+Una aplicación serverless robusta para gestión de tareas construida con **arquitectura en capas**, siguiendo principios SOLID y mejores prácticas de desarrollo. Implementada con AWS Lambda, DynamoDB, S3, SQS, SNS y desarrollo local con LocalStack.
 
+## ✨ Características Principales
+
+- ✅ **CRUD completo de tareas** con validación de datos
+- 📎 **Gestión de archivos** vinculados a tareas (S3)  
+- 📧 **Notificaciones automáticas** vía SNS
+- ⚡ **Procesamiento asíncrono** con colas SQS
+- 🔍 **Filtrado avanzado** por estado, prioridad y etiquetas
+- � **Estadísticas en tiempo real** de tareas  
+- 🧪 **Entorno local completo** con LocalStack
+- 🏗️ **Arquitectura en capas** (Handlers → Services → Repositories)
+- 🧪 **Suite de pruebas completa** (unitarias + integración)
+- 📚 **Documentación automática** con FastAPI/Swagger
+
+## 🏗️ Arquitectura en Capas
+
+### **Diagrama de Infraestructura**
 ```
 ┌─────────────┐    ┌──────────────┐    ┌─────────────┐
 │ API Gateway │────│ AWS Lambda   │────│ DynamoDB    │
-│             │    │ (Python)     │    │ (Tareas)    │
+│ (HTTP)      │    │ (Handlers)   │    │ (Tareas)    │
 └─────────────┘    └──────────────┘    └─────────────┘
                            │
                    ┌───────┼───────┐
@@ -29,141 +54,265 @@ Una aplicación serverless completa para gestión de tareas construida con AWS L
               └─────────┘ └───┘ └───┘
 ```
 
-## 🛠️ Tecnologías
-
-- **Backend**: Python 3.9+, AWS Lambda
-- **Base de datos**: DynamoDB
-- **Almacenamiento**: S3
-- **Mensajería**: SQS, SNS
-- **API**: API Gateway, FastAPI (local)
-- **IaC**: AWS CDK
-- **Desarrollo local**: LocalStack
-- **Testing**: Pytest
-
-## 📁 Estructura del proyecto
-
+### **Patrón de Capas Implementado**
 ```
-task-manager/
-├── lambdas/                 # Funciones Lambda
-│   ├── models.py           # Modelos de datos (Pydantic)
-│   ├── aws_utils.py        # Utilidades AWS
-│   ├── create_task.py      # Crear tarea
-│   ├── list_tasks.py       # Listar tareas
-│   ├── update_task.py      # Actualizar tarea
-│   ├── delete_task.py      # Eliminar tarea
-│   ├── upload_file.py      # Subir archivos
-│   ├── process_sqs.py      # Procesar mensajes SQS
-│   └── process_s3_event.py # Procesar eventos S3
-├── local/                   # Desarrollo local
-│   ├── api_server.py       # Servidor FastAPI
-│   ├── setup_localstack.py # Configuración LocalStack
-│   └── test_functions.py   # Pruebas de funciones
-├── cdk/                     # Infraestructura CDK
-├── tests/                   # Pruebas unitarias
-├── requirements.txt
-├── .env                     # Variables de entorno
-└── start_local.bat         # Script de inicio
+🎯 HANDLERS     → Solo eventos Lambda/HTTP
+    ↓
+⚙️ SERVICES     → Solo lógica de negocio  
+    ↓
+💾 REPOSITORIES → Solo acceso a datos
+    ↓
+📝 MODELS       → Solo estructura de datos
 ```
 
-## 🚀 Inicio rápido
+**Principio**: Cada capa tiene **una sola responsabilidad** y no conoce detalles de implementación de otras capas.
 
-### Prerequisitos
+## 🛠️ Stack Tecnológico
 
-1. **Python 3.9+**
-2. **Docker** (para LocalStack)
-3. **Node.js** (para AWS CDK)
-4. **AWS CLI** configurado
+### **Backend & Serverless**
+- **Python 3.6+** (compatible con versiones legacy)
+- **AWS Lambda** (Serverless functions)
+- **Pydantic** (Validación y serialización de datos)
+- **Boto3** (SDK de AWS para Python)
 
-### Desarrollo Local
+### **Almacenamiento & Datos**
+- **DynamoDB** (Base de datos NoSQL)
+- **S3** (Almacenamiento de archivos)
 
-1. **Clonar e instalar dependencias**:
+### **Mensajería & Notificaciones**
+- **SQS** (Colas de mensajes asíncronos)
+- **SNS** (Notificaciones push)
+
+### **API & Desarrollo**
+- **API Gateway** (Producción)
+- **FastAPI** (Desarrollo local + documentación automática)
+- **LocalStack** (Simulación AWS local)
+
+### **Infraestructura & Deployment**
+- **AWS CDK** (Infrastructure as Code)
+- **Docker** (LocalStack containerization)
+
+### **Testing & QA**
+- **Pytest** (Framework de testing)
+- **Postman Collection** (API testing)
+- **Unittest.mock** (Mocking para pruebas unitarias)
+
+## 📁 Estructura del Proyecto (Arquitectura en Capas)
+
+```
+TaskManagerServerless_AWS/
+├── 📂 lambdas/                  # 🐍 Código Python principal
+│   ├── 📝 models.py             # Modelos Pydantic (Task, TaskCreate, etc.)
+│   ├── 📂 handlers/             # 🎯 CAPA: Controladores Lambda
+│   │   ├── create_task_handler.py   # POST /tasks
+│   │   ├── list_tasks_handler.py    # GET /tasks  
+│   │   ├── update_task_handler.py   # PUT /tasks/{id}
+│   │   ├── delete_task_handler.py   # DELETE /tasks/{id}
+│   │   └── upload_file_handler.py   # POST /tasks/{id}/upload
+│   ├── 📂 services/             # ⚙️ CAPA: Lógica de Negocio
+│   │   ├── task_service.py          # CRUD + validaciones
+│   │   ├── notification_service.py  # Notificaciones SNS
+│   │   ├── queue_service.py         # Colas SQS
+│   │   └── file_service.py          # Gestión archivos S3
+│   ├── 📂 repositories/         # 💾 CAPA: Acceso a Datos
+│   │   └── task_repository.py       # Operaciones DynamoDB
+│   └── 📂 utils/                # 🛠️ CAPA: Utilidades
+│       ├── aws_config.py            # Configuración AWS
+│       └── response_utils.py        # Respuestas HTTP estándar
+├── 📂 local/                    # 🖥️ Desarrollo Local
+│   ├── api_server.py            # Servidor FastAPI (puerto 8000)
+│   ├── setup_localstack.py     # Setup automático LocalStack
+│   └── test_basic_functionality.py # Pruebas de smoke testing
+├── 📂 tests/                    # 🧪 Suite de Pruebas
+│   ├── test_lambda_functions.py     # Pruebas unitarias completas
+│   └── test_complete_functionality.py # Pruebas integración + API
+├── 📂 cdk/                      # ☁️ Infrastructure as Code
+├── 📄 requirements.txt          # 📦 Dependencias Python
+├── 📄 .env                      # 🔐 Variables de entorno
+├── 📄 ARCHITECTURE.md           # 📚 Documentación arquitectura
+├── 📄 TaskManager_API_Collection.postman_collection.json # 🧪 Postman
+└── 📄 start_local.bat          # 🚀 Script inicio rápido
+```
+
+> **Nota**: La estructura sigue el **patrón de responsabilidad única** donde cada archivo/carpeta tiene una sola razón para cambiar.
+
+## 🚀 Guía de Inicio Rápido
+
+### 📋 Prerequisitos
+
+| Herramienta | Versión | Propósito |
+|-------------|---------|-----------|
+| **Python** | 3.6+ | Runtime principal |
+| **Docker** | Latest | LocalStack container |
+| **Git** | Latest | Control de versiones |
+| **Postman** | Optional | Testing API |
+
+### 🏃‍♂️ Setup Rápido (< 5 minutos)
+
+1. **📦 Clonar e instalar**:
 ```bash
-git clone <repo-url>
-cd task-manager
+git clone https://github.com/SantiagoEsquivelHub/TaskManagerServerless_AWS.git
+cd TaskManagerServerless_AWS
+
+# Crear entorno virtual
+python -m venv .venv
+.venv\Scripts\activate  # Windows
+# source .venv/bin/activate  # Linux/Mac
+
+# Instalar dependencias
 pip install -r requirements.txt
 ```
 
-2. **Iniciar LocalStack**:
+2. **🐳 Iniciar LocalStack** (terminal separada):
 ```bash
-# En una terminal separada
+# Instalar LocalStack si no lo tienes
+pip install localstack
+
+# Iniciar servicios AWS locales
 localstack start
 ```
 
-3. **Configurar entorno local**:
+3. **⚡ Setup automático** (todo en uno):
 ```bash
-# En Windows
+# Windows - Script automático
 start_local.bat
 
-# En Linux/Mac
-python local/setup_localstack.py
+# Manual paso a paso
+python local/setup_localstack.py  # Configura AWS local
+python local/api_server.py        # Inicia API en puerto 8000
 ```
 
-4. **Iniciar servidor API**:
+4. **✅ Verificar funcionamiento**:
+- 🌐 **API Local**: http://localhost:8000
+- 📚 **Documentación Swagger**: http://localhost:8000/docs  
+- 💚 **Health Check**: http://localhost:8000/health
+- 📊 **Estadísticas**: http://localhost:8000/tasks/statistics
+
+### 🧪 Pruebas Rápidas
+
 ```bash
-cd local
-python api_server.py
+# Smoke tests básicos
+python tests/test_complete_functionality.py --smoke
+
+# Pruebas con Postman (importar colección)
+# TaskManager_API_Collection.postman_collection.json
+
+# Pruebas funcionales básicas
+python test_basic_functionality.py
 ```
 
-5. **Probar la API**:
-- **API**: http://localhost:8000
-- **Documentación**: http://localhost:8000/docs
-- **Health check**: http://localhost:8000/health
+## 📝 Ejemplos de Uso
 
-### Ejemplos de uso
+### **🌐 Usando la API Web (Recomendado)**
+Visita http://localhost:8000/docs para la **interfaz Swagger interactiva** donde puedes probar todos los endpoints directamente desde el navegador.
 
-#### Crear una tarea
+### **💻 Ejemplos con cURL**
+
+#### ✅ Crear una tarea
 ```bash
 curl -X POST "http://localhost:8000/tasks" \
   -H "Content-Type: application/json" \
   -d '{
-    "title": "Mi primera tarea",
-    "description": "Descripción de la tarea",
+    "title": "Implementar autenticación JWT",
+    "description": "Agregar middleware de autenticación con tokens JWT",
     "priority": "high",
-    "tags": ["trabajo", "urgente"]
+    "tags": ["backend", "security", "auth"]
   }'
 ```
 
-#### Listar tareas
+#### 📋 Listar tareas con filtros
 ```bash
-curl "http://localhost:8000/tasks?limit=10&status=pending"
+# Todas las tareas pendientes de alta prioridad
+curl "http://localhost:8000/tasks?status=pending&priority=high&limit=10"
+
+# Tareas con etiqueta específica
+curl "http://localhost:8000/tasks?tag=backend&limit=5"
 ```
 
-#### Actualizar tarea
+#### ✏️ Actualizar tarea
 ```bash
 curl -X PUT "http://localhost:8000/tasks/{task_id}" \
   -H "Content-Type: application/json" \
   -d '{
     "status": "in_progress",
-    "description": "Tarea actualizada"
+    "description": "Tarea actualizada - en progreso",
+    "priority": "medium"
   }'
 ```
 
-#### Subir archivo a tarea
+#### 📎 Subir archivo a tarea
 ```bash
 curl -X POST "http://localhost:8000/tasks/{task_id}/upload" \
-  -F "file=@mi_archivo.pdf"
+  -F "file=@documento.pdf" \
+  -F "file=@imagen.jpg"
 ```
 
-## 🧪 Pruebas
-
-### Pruebas de funciones Lambda
+#### 📊 Obtener estadísticas
 ```bash
-cd local
-python test_functions.py
+curl "http://localhost:8000/tasks/statistics"
 ```
 
-### Pruebas unitarias
+### **🐍 Ejemplos con Python**
+```python
+import requests
+
+# Crear tarea
+response = requests.post('http://localhost:8000/tasks', json={
+    'title': 'Tarea desde Python',
+    'description': 'Creada usando requests',
+    'priority': 'medium',
+    'tags': ['python', 'automation']
+})
+print(f"Tarea creada: {response.json()}")
+
+# Listar tareas
+tasks = requests.get('http://localhost:8000/tasks?limit=5').json()
+print(f"Total tareas: {len(tasks['tasks'])}")
+```
+
+## 🧪 Suite de Pruebas Completa
+
+### **🔥 Smoke Tests (Verificación Rápida)**
 ```bash
-pytest tests/
+# Pruebas básicas de funcionalidad (< 30 segundos)
+python tests/test_complete_functionality.py --smoke
+
+# Pruebas de funcionalidad básica
+python test_basic_functionality.py
 ```
 
-### Pruebas de carga masiva
-Sube un archivo CSV a `bulk-upload/` en S3 con el formato:
-```csv
-title,description,status,priority,due_date,tags
-Tarea 1,Descripción 1,pending,high,2024-01-15T10:00:00,tag1,tag2
-Tarea 2,Descripción 2,pending,medium,,tag3
+### **🔬 Pruebas Unitarias (Componentes Aislados)**
+```bash
+# Todas las pruebas unitarias con pytest
+python -m pytest tests/test_complete_functionality.py -v
+
+# Pruebas específicas por capa
+python -m pytest tests/test_complete_functionality.py::TestTaskModels -v
+python -m pytest tests/test_complete_functionality.py::TestTaskService -v
+python -m pytest tests/test_complete_functionality.py::TestLambdaHandlers -v
 ```
+
+### **🌐 Pruebas de Integración (API Completa)**
+```bash
+# Asegúrate de que la API local esté corriendo (puerto 8000)
+python local/api_server.py
+
+# En otra terminal - pruebas de integración
+python -m pytest tests/test_complete_functionality.py::TestLocalAPIIntegration -v
+```
+
+### **📬 Pruebas con Postman**
+1. Importar `TaskManager_API_Collection.postman_collection.json`
+2. Verificar que API local esté en puerto 8000
+3. Ejecutar colección completa (incluye tests automáticos)
+
+### **📊 Cobertura de Pruebas**
+- ✅ **Modelos Pydantic** (validación de datos)
+- ✅ **Servicios de negocio** (lógica CRUD)
+- ✅ **Repositorios** (acceso a DynamoDB)
+- ✅ **Handlers Lambda** (controladores HTTP)
+- ✅ **Utilidades** (respuestas, configuración)
+- ✅ **API Integración** (end-to-end)
 
 ## 📊 API Endpoints
 
@@ -236,16 +385,41 @@ Actualizar `.env` con los valores reales de AWS después del despliegue.
 - **S3 bucket** privado
 - **Validación** de entrada con Pydantic
 
-## 🛣️ Próximos pasos
+## �️ Documentación Adicional
 
-- [ ] Autenticación de usuarios (Cognito)
-- [ ] Paginación avanzada
-- [ ] Búsqueda de texto completo
-- [ ] Webhooks para integraciones
-- [ ] Dashboard web (React)
-- [ ] API GraphQL
-- [ ] Caché con ElastiCache
-- [ ] Step Functions para workflows complejos
+- 📚 **[ARCHITECTURE.md](ARCHITECTURE.md)** - Documentación completa de la arquitectura en capas
+- 📬 **[Postman Collection](TaskManager_API_Collection.postman_collection.json)** - Tests API automatizados
+- 🧪 **[Tests](tests/)** - Suite completa de pruebas unitarias e integración
+
+## 🛣️ Roadmap & Mejoras Futuras
+
+### **🔐 Seguridad & Autenticación**
+- [ ] **AWS Cognito** - Autenticación de usuarios
+- [ ] **JWT Tokens** - Autorización por roles
+- [ ] **API Keys** - Protección de endpoints públicos
+
+### **📊 Funcionalidades Avanzadas**  
+- [ ] **Paginación cursor-based** - Para listas grandes
+- [ ] **Búsqueda full-text** - Con OpenSearch/Elasticsearch
+- [ ] **Webhooks** - Notificaciones a sistemas externos
+- [ ] **Bulk operations** - Operaciones masivas eficientes
+
+### **🎨 Frontend & UX**
+- [ ] **Dashboard React** - Interfaz web moderna
+- [ ] **Mobile App** - React Native o Flutter
+- [ ] **Real-time updates** - WebSockets para updates live
+
+### **⚡ Performance & Escalabilidad**
+- [ ] **ElastiCache** - Caché de consultas frecuentes  
+- [ ] **DynamoDB Streams** - Procesamiento de eventos
+- [ ] **Step Functions** - Workflows complejos
+- [ ] **API GraphQL** - Consultas flexibles
+
+### **🔧 DevOps & Monitoreo**
+- [ ] **CI/CD Pipeline** - GitHub Actions
+- [ ] **CloudWatch Dashboards** - Monitoreo visual
+- [ ] **X-Ray Tracing** - Debugging distribuido
+- [ ] **Load Testing** - Pruebas de carga automatizadas
 
 ## 🐛 Solución de problemas
 
@@ -283,8 +457,27 @@ MIT License - ver [LICENSE](LICENSE) para detalles.
 4. Push a la rama (`git push origin feature/AmazingFeature`)
 5. Abrir Pull Request
 
-## 📧 Contacto
+## 🤝 Contribuir
 
-- **Autor**: Santiago Esquivel
-- **Email**: tu-email@example.com
-- **LinkedIn**: [tu-linkedin](https://linkedin.com/in/tu-perfil)
+¡Las contribuciones son bienvenidas! Para contribuir:
+
+1. **Fork** el proyecto
+2. **Crear** rama de feature (`git checkout -b feature/NuevaFuncionalidad`)
+3. **Commit** cambios (`git commit -m 'Agregar nueva funcionalidad'`)
+4. **Push** a la rama (`git push origin feature/NuevaFuncionalidad`)
+5. **Abrir** Pull Request
+
+### **� Guías de Contribución**
+- Seguir la **arquitectura en capas** existente
+- Agregar **pruebas** para nueva funcionalidad
+- Actualizar **documentación** si es necesario
+- Respetar **principios SOLID** y **clean code**
+
+## 📧 Contacto & Autor
+
+**Santiago Esquivel** - Desarrollador Full Stack  
+- 🐙 **GitHub**: [@SantiagoEsquivelHub](https://github.com/SantiagoEsquivelHub)
+- 💼 **LinkedIn**: [Conectar en LinkedIn](https://linkedin.com/in/santiago-esquivel-dev)
+- 📧 **Email**: santiago.esquivel.dev@gmail.com
+
+> 💡 **¿Preguntas sobre la arquitectura?** Revisa [ARCHITECTURE.md](ARCHITECTURE.md) o abre un issue en GitHub.
