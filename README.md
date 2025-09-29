@@ -46,7 +46,10 @@ python local/api_server.py
 # 1. Configurar AWS CLI
 aws configure
 
-# 2. Bootstrap CDK (solo primera vez)
+# 2. Clonar con submódulos
+git clone --recursive https://github.com/SantiagoEsquivelHub/TaskManagerServerless_AWS.git
+
+# 3. Bootstrap CDK (solo primera vez)
 cd cdk && cdk bootstrap
 
 # 3. Desplegar infraestructura
@@ -116,10 +119,32 @@ python monitoring/diagnose_sns.py
 aws logs tail /aws/lambda/task-manager-createtask --follow
 ```
 
-## 📚 Documentación Adicional
+## � Estructura de Submódulos
+
+Este proyecto utiliza **submódulos Git** para separar la infraestructura del código de aplicación:
+
+- **📱 Aplicación**: `TaskManagerServerless_AWS` (este repo)
+- **🏗️ Infraestructura**: `TaskManagerServerless_CDK` (submódulo en `/cdk`)
+
+### Trabajar con Submódulos
+```bash
+# Clonar proyecto completo
+git clone --recursive https://github.com/SantiagoEsquivelHub/TaskManagerServerless_AWS.git
+
+# Actualizar submódulos existentes
+git submodule update --recursive
+
+# Actualizar submódulo a latest
+cd cdk && git pull origin main && cd .. && git add cdk && git commit -m "Update CDK submodule"
+```
+
+## �📚 Documentación Adicional
 
 - 📖 [Guía de Despliegue](cdk/DEPLOYMENT_GUIDE.md) - Deploy paso a paso
-- 🏗️ [ARCHITECTURE.md](ARCHITECTURE.md) - Arquitectura detallada
+- 🏗️ [ARCHITECTURE_DIAGRAM.md](ARCHITECTURE_DIAGRAM.md) - Diagramas de arquitectura
+- 🔄 [SEQUENCE_DIAGRAM.md](SEQUENCE_DIAGRAM.md) - Flujos de operaciones
+- 🌐 [INFRASTRUCTURE_DIAGRAM.md](INFRASTRUCTURE_DIAGRAM.md) - Infraestructura AWS
+- 💰 [Análisis de Costos](cdk/COST_ANALYSIS.md) - Estimación de costos
 - 🔧 [TaskManagerServerless_AWS.md](TaskManagerServerless_AWS.md) - Especificaciones técnicas
 
 ## 🎯 Próximos Pasos
